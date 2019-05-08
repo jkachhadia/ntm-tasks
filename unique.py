@@ -65,14 +65,12 @@ if __name__ == '__main__':
             z=z+1
             # Define the input and expected output variable
             input_var, target_var = T.tensor3s('input', 'target')
-            print(input_var)
             # The generator to sample examples from
             generator = UnTask(batch_size=1, max_iter=1000000, size=4, max_length=5, end_marker=True)
             # The model (1-layer Neural Turing Machine)
             l_output, l_ntm = model(input_var, \
                 size=3, num_units=c, memory_shape=(128, 20))
             # The generated output variable and the loss function
-            print(l_output)
             pred_var = T.clip(lasagne.layers.get_output(l_output), 1e-6, 1. - 1e-6)
             loss = T.mean(lasagne.objectives.binary_crossentropy(pred_var, target_var))
             # Create the update expressions
